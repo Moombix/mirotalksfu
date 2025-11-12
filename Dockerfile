@@ -18,7 +18,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Rename config.template.js to config.js
-COPY ./app/src/config.template.js ./app/src/config.js
+COPY ./app/src/config.js ./app/src/config.js
 
 # Copy package*.json and install npm dependencies
 COPY package*.json ./
