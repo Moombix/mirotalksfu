@@ -12,8 +12,6 @@ npm-debug.log
 .cache
 
 # personal
-.env
-config.js
 docker-compose.yml
 docker-push.sh
 rec
