@@ -1402,7 +1402,6 @@ class RoomClient {
             showConfirmButton: true,
             background: swalBackground,
             position: 'top',
-            icon: 'warning',
             title: 'Unable to reconnect',
             text: 'Please check your internet connection!',
             icon: 'error',
@@ -2819,7 +2818,7 @@ class RoomClient {
 
         const producer_id = this.producerLabel.get(type);
         const producer = this.producers.get(producer_id);
-
+        console.log(...this.producers.entries());
         // Stop all tracks of the producer's stream
         if (producer && producer.track) {
             try {
@@ -4192,22 +4191,6 @@ class RoomClient {
                 document.documentElement.style.setProperty('--btns-margin-left', '0px');
                 document.documentElement.style.setProperty('--btns-width', '60px');
                 document.documentElement.style.setProperty('--btns-flex-direction', 'column');
-                // bottomButtons horizontally
-                document.documentElement.style.setProperty('--bottom-btns-top', 'auto');
-                document.documentElement.style.setProperty('--bottom-btns-left', '50%');
-                document.documentElement.style.setProperty('--bottom-btns-bottom', '0');
-                document.documentElement.style.setProperty('--bottom-btns-translate-X', '-50%');
-                document.documentElement.style.setProperty('--bottom-btns-translate-Y', '0%');
-                document.documentElement.style.setProperty('--bottom-btns-margin-bottom', '16px');
-                document.documentElement.style.setProperty('--bottom-btns-flex-direction', 'row');
-                break;
-            case 'horizontal':
-                document.documentElement.style.setProperty('--btns-top', '95%');
-                document.documentElement.style.setProperty('--btns-right', '25%');
-                document.documentElement.style.setProperty('--btns-left', '50%');
-                document.documentElement.style.setProperty('--btns-margin-left', '-240px');
-                document.documentElement.style.setProperty('--btns-width', '480px');
-                document.documentElement.style.setProperty('--btns-flex-direction', 'row');
                 // bottomButtons vertically
                 document.documentElement.style.setProperty('--bottom-btns-top', '50%');
                 document.documentElement.style.setProperty('--bottom-btns-left', '15px');
@@ -4216,6 +4199,22 @@ class RoomClient {
                 document.documentElement.style.setProperty('--bottom-btns-translate-Y', '-50%');
                 document.documentElement.style.setProperty('--bottom-btns-margin-bottom', '0');
                 document.documentElement.style.setProperty('--bottom-btns-flex-direction', 'column');
+                break;
+            case 'horizontal':
+                document.documentElement.style.setProperty('--btns-top', '95%');
+                document.documentElement.style.setProperty('--btns-right', '25%');
+                document.documentElement.style.setProperty('--btns-left', '50%');
+                document.documentElement.style.setProperty('--btns-margin-left', '-240px');
+                document.documentElement.style.setProperty('--btns-width', '480px');
+                document.documentElement.style.setProperty('--btns-flex-direction', 'row');
+                // bottomButtons horizontally
+                document.documentElement.style.setProperty('--bottom-btns-top', 'auto');
+                document.documentElement.style.setProperty('--bottom-btns-left', '50%');
+                document.documentElement.style.setProperty('--bottom-btns-bottom', '0');
+                document.documentElement.style.setProperty('--bottom-btns-translate-X', '-50%');
+                document.documentElement.style.setProperty('--bottom-btns-translate-Y', '0%');
+                document.documentElement.style.setProperty('--bottom-btns-margin-bottom', '16px');
+                document.documentElement.style.setProperty('--bottom-btns-flex-direction', 'row');
                 break;
             default:
                 break;
@@ -8447,7 +8446,7 @@ class RoomClient {
     }
 
     toggleVolumeInput(volumeInput, volumeValue) {
-        /* 
+        /*
             If the producer has changed the volume from the default value of 100,
             disable the volume input control on the consumer side to prevent further adjustments.
             Otherwise, keep the input enabled if the volume is still at 100.

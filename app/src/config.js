@@ -138,6 +138,7 @@ module.exports = {
          */
         trustProxy: process.env.TRUST_PROXY === 'true',
         ssl: {
+            enabled: process.env.SERVER_SSL_ENABLED === 'true',
             cert: process.env.SERVER_SSL_CERT || '../ssl/cert.pem',
             key: process.env.SERVER_SSL_KEY || '../ssl/key.pem',
         },

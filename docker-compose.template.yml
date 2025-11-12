@@ -1,6 +1,6 @@
 services:
     mirotalksfu:
-        image: mirotalk/sfu:latest
+        build: .
         container_name: mirotalksfu
         hostname: mirotalksfu
         restart: unless-stopped

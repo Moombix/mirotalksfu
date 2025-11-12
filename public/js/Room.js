@@ -228,6 +228,7 @@ let virtualBackgroundTransparent;
 
 let swalBackground = 'radial-gradient(#393939, #000000)'; //'rgba(0, 0, 0, 0.7)';
 
+let bridge = null;
 let rc = null;
 let producer = null;
 let participantsCount = 0;
@@ -1154,13 +1155,14 @@ async function whoAreYou() {
         show(videoVirtualBackground);
     }
 
-    if (peer_name) {
+    // we want to have the modal every time
+    /*if (peer_name) {
         hide(loadingDiv);
         checkMedia();
         getPeerInfo();
         joinRoom(peer_name, room_id);
         return;
-    }
+    }*/
 
     let default_name = window.localStorage.peer_name ? window.localStorage.peer_name : '';
     if (getCookie(room_id + '_name')) {
@@ -1236,7 +1238,7 @@ async function whoAreYou() {
         input: 'text',
         inputPlaceholder: 'Enter your email or name',
         inputAttributes: { maxlength: 254, id: 'usernameInput' },
-        inputValue: default_name,
+        inputValue: peer_name,
         html: initUser, // Inject HTML
         confirmButtonText: `Join meeting`,
         customClass: { popup: 'init-modal-size' },
@@ -1588,6 +1590,7 @@ function joinRoom(peer_name, room_id) {
             transcription,
             roomIsReady
         );
+        bridge = new IframeBridge(rc);
         handleRoomClientEvents();
     }
 }
@@ -3792,36 +3795,10 @@ function handleRoomClientEvents() {
 // ####################################################
 
 function leaveRoom(allowCancel = true) {
-    survey && survey.enabled ? leaveFeedback(allowCancel) : redirectOnLeave();
-}
-
-function leaveFeedback(allowCancel) {
-    Swal.fire({
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        showDenyButton: true,
-        showCancelButton: allowCancel,
-        confirmButtonColor: 'green',
-        denyButtonColor: 'red',
-        cancelButtonColor: 'gray',
-        background: swalBackground,
-        imageUrl: image.feedback,
-        position: 'top',
-        title: 'Leave a feedback',
-        text: 'Do you want to rate your MiroTalk experience?',
-        confirmButtonText: `Yes`,
-        denyButtonText: `No`,
-        cancelButtonText: `Cancel`,
-        showClass: { popup: 'animate__animated animate__fadeInDown' },
-        hideClass: { popup: 'animate__animated animate__fadeOutUp' },
-    }).then((result) => {
-        if (result.isConfirmed) {
-            endRoomSession();
-            openURL(survey.url);
-        } else if (result.isDenied) {
-            redirectOnLeave();
-        }
-    });
+    // we expect the parent application to listen to the exit button clicks and show an appropriate message
+    if (!allowCancel || window.self === window.top) {
+        redirectOnLeave()
+    }
 }
 
 function redirectOnLeave() {
@@ -5307,7 +5284,7 @@ function handleAspectRatio() {
 }
 
 function adaptAspectRatio(participantsCount) {
-    /* 
+    /*
         ['0:0', '4:3', '16:9', '1:1', '1:2'];
     */
     let desktop,

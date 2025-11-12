@@ -1,7 +1,7 @@
 'use strict';
 
 /*
-███████ ███████ ██████  ██    ██ ███████ ██████  
+███████ ███████ ██████  ██    ██ ███████ ██████ 
 ██      ██      ██   ██ ██    ██ ██      ██   ██ 
 ███████ █████   ██████  ██    ██ █████   ██████  
      ██ ██      ██   ██  ██  ██  ██      ██   ██ 
@@ -133,17 +133,23 @@ const slackSigningSecret = config?.integrations?.slack?.signingSecret || '';
 
 const app = express();
 
-const options = {
+const options = config?.server?.ssl.enabled ? {
     cert: fs.readFileSync(path.join(__dirname, config?.server?.ssl.cert || '../ssl/cert.pem'), 'utf-8'),
     key: fs.readFileSync(path.join(__dirname, config?.server?.ssl.key || '../ssl/key.pem'), 'utf-8'),
-};
+} : {};
+
+let server;
+
+if (config?.server?.ssl.enabled) {
+    server = httpolyglot.createServer(options, app);
+}  else {
+    server = http.createServer(app);
+}
 
 const corsOptions = {
     origin: config.server?.cors?.origin || '*',
     methods: config.server?.cors?.methods || ['GET', 'POST'],
 };
-
-const server = httpolyglot.createServer(options, app);
 
 const io = socketIo(server, {
     maxHttpBufferSize: 1e7,
