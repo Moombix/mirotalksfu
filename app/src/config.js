@@ -126,7 +126,7 @@ module.exports = {
         hostUrl: process.env.SERVER_HOST_URL || 'https://localhost:3010',
         listen: {
             ip: process.env.SERVER_LISTEN_IP || '0.0.0.0',
-            port: process.env.SERVER_LISTEN_PORT || 3010,
+            port: process.env.PORT || process.env.SERVER_LISTEN_PORT || 3010,
         },
 
         /**
@@ -1361,7 +1361,7 @@ module.exports = {
          * - id           : Your website ID from Umami
          */
         stats: {
-            enabled: process.env.STATS_ENABLED !== 'false',
+            enabled: process.env.STATS_ENABLED === 'true',
             src: process.env.STATS_SRC || 'https://stats.mirotalk.com/script.js',
             id: process.env.STATS_ID || '41d26670-f275-45bb-af82-3ce91fe57756',
         },

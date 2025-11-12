@@ -12,7 +12,6 @@ npm-debug.log
 .cache
 
 # personal
-docker-compose.yml
 docker-push.sh
 rec
 rtmp

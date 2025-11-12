@@ -34,6 +34,7 @@ RUN apt-get purge -y --auto-remove \
 # Copy the application code
 COPY app app
 COPY public public
+COPY .env .env
 
 # Set default command to start the application
 CMD ["npm", "start"]
